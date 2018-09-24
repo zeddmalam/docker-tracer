@@ -1,0 +1,19 @@
+version: "2"
+services:
+  docker-tracer:
+    build: .
+    environment:
+      - DOCKER_TRACER_PORT=3005
+      - DOCKER_TRACER_NEXT_HOST=http://elasticsearch
+      - DOCKER_TRACER_NEXT_PORT=9200
+      - LIGHTSTEP_COMPONENT_NAME=example component name
+      - LIGHTSTEP_ACCESS_TOKEN=accesstoken
+      - LIGHTSTEP_COLLECTOR_HOST=collectorhost
+      - LIGHTSTEP_COLLECTOR_PORT=collectorport
+      - LIGHTSTEP_VERBOSITY=4
+    ports:
+      - "3005:3005"
+#networks:
+#  default:
+#    external:
+#      name: elasticsearch
