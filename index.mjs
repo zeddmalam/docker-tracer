@@ -55,7 +55,17 @@ server.on('request', function (request, response) {
     const clientRequest = http.request(options, serverResponse => {
       response.writeHeader(serverResponse.statusCode, serverResponse.headers);
       serverResponse.pipe(response);
+<<<<<<< HEAD
       //console.info('response', response);
+=======
+      console.info('response', response);
+    });
+    request.pipe(connector);
+    connector.on("end", () => {
+      span.setTag("http.status_code", response.statusCode);
+      console.info('finish span');
+      span.finish();
+>>>>>>> e1fc6e5c37253bcda30612994e26f086b38cfbf0
     });
     request.pipe(clientRequest);
   } catch (err) {
@@ -63,7 +73,11 @@ server.on('request', function (request, response) {
     response.write(JSON.stringify(err));
     response.end();
     span.setTag("http.status_code", response.statusCode);
+<<<<<<< HEAD
     console.info('span end');
+=======
+    console.info('finish span with error');
+>>>>>>> e1fc6e5c37253bcda30612994e26f086b38cfbf0
     span.finish();
   }
 });
