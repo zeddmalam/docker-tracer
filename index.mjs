@@ -40,27 +40,30 @@ server.on('request', function (request, response) {
   span.setTag("http.path", request.path);
   span.setTag("http.host", request.host);
 
+  request.on('end', () => {
+    span.setTag("http.status_code", response.statusCode);
+    console.info('span on end');
+    span.finish();
+  });
+
   try {
     const options = url.parse(`${DOCKER_TRACER_NEXT_HOST}:${DOCKER_TRACER_NEXT_PORT}${request.url}`);
     options.headers = request.headers;
     options.method = request.method;
     options.agent = false;
 
-    const connector = http.request(options, serverResponse => {
+    const clientRequest = http.request(options, serverResponse => {
       response.writeHeader(serverResponse.statusCode, serverResponse.headers);
       serverResponse.pipe(response);
-      console.info('response', response);
+      //console.info('response', response);
     });
-    request.pipe(connector);
-    connector.on("end", () => {
-      span.setTag("http.status_code", response.statusCode);
-      span.finish();
-    });
+    request.pipe(clientRequest);
   } catch (err) {
     response.statusCode = 500;
     response.write(JSON.stringify(err));
     response.end();
     span.setTag("http.status_code", response.statusCode);
+    console.info('span end');
     span.finish();
   }
 });
