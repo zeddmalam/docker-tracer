@@ -54,6 +54,7 @@ server.on('request', function (request, response) {
     request.pipe(connector);
     connector.on("end", () => {
       span.setTag("http.status_code", response.statusCode);
+      console.info('finish span');
       span.finish();
     });
   } catch (err) {
@@ -61,6 +62,7 @@ server.on('request', function (request, response) {
     response.write(JSON.stringify(err));
     response.end();
     span.setTag("http.status_code", response.statusCode);
+    console.info('finish span with error');
     span.finish();
   }
 });
