@@ -1,7 +1,7 @@
 {
-  "name": "dockentication",
+  "name": "docker-tracer",
   "version": "1.0.0",
-  "description": "Is a layer with node js proxy server which provides out of the box authentication for your application.",
+  "description": "Is a layer with node js proxy server which provides out of the box opentracing for your application on kube container level.",
   "main": "index.js",
   "dependencies": {
     "lightstep-tracer": "^0.20.9",
@@ -11,7 +11,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --experimental-modules index",
-    "dev": "API_OAUTH_AUTHORIZE=http://oauth.x-vivo.de/api/oauth/authorized DOCKENTICATION_PORT=3005 DOCKENTICATION_NEXT_PORT=3082 DOCKENTICATION_NEXT_HOST=localhost node --experimental-modules index"
+    "dev": "node --experimental-modules index"
   },
   "repository": {
     "type": "git",

@@ -1,8 +1,8 @@
 import http from 'http';
 import url from 'url';
 
-const opentracing = require("opentracing");
-const lightstep = require("lightstep-tracer");
+import opentracing from 'opentracing';
+import lightstep from 'lightstep-tracer';
 
 const {
   DOCKER_TRACER_PORT,
@@ -25,12 +25,6 @@ const tracer = new lightstep.Tracer({
 opentracing.initGlobalTracer(tracer);
 
 const server = http.createServer().listen(DOCKER_TRACER_PORT);
-
-server.use((req, res, next) => {
-
-  req.span = span;
-  next();
-});
 
 server.on('request', function (request, response) {
   console.log('docker tracer start');
